@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Users - can view only List of starships performance";
+}
+
+@section scripts {
+
+}
+
+<div class="container" ng-app="UsersSection">
+
+ @Html.Partial("_TopMenu")
+
+    <div class="row">
+        <div>
+            <div anti-Forgery-Token ng-view>  </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/userssection-modules")
+@Scripts.Render("~/bundles/userssection-services")
+@Scripts.Render("~/bundles/userssection-controllers")
+
+

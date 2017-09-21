@@ -1,0 +1,20 @@
+var UsersSection;
+(function (UsersSection) {
+    var UsersSectionRoutes = (function () {
+        function UsersSectionRoutes() {
+        }
+        UsersSectionRoutes.configureRoutes = function ($routeProvider) {
+            $routeProvider
+                .when("/", {
+                controller: "UsersSection.Controllers.StarshipTravelController",
+                templateUrl: "/App/UsersSection/Views/starships.html",
+                controllerAs: "starshiptravelCtrl"
+            });
+            $routeProvider.otherwise({ redirectTo: "/" });
+        };
+        return UsersSectionRoutes;
+    }());
+    UsersSectionRoutes.$inject = ["$routeProvider"];
+    UsersSection.UsersSectionRoutes = UsersSectionRoutes;
+})(UsersSection || (UsersSection = {}));
+//# sourceMappingURL=UsersSectionRoutes.js.map

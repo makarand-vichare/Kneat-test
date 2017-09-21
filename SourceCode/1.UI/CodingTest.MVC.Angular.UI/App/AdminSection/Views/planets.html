@@ -1,0 +1,18 @@
+﻿<h2>Planets</h2>
+<div ng-init="planetCtrl.GetPlanets(1)">
+    <div style="overflow:auto" ng-if="planetCtrl.planets.length >0">
+        <div style="float:left;overflow:auto;border:solid;border-width:thin;margin:2px;width:98%" ng-repeat="planet in planetCtrl.planets">
+             <div style="text-align:center;padding-left:2px;padding-bottom:3px"><b>{{newsLetter.title}}</b></div>
+                <div style="overflow:auto">
+                    <div style="float:left;text-align:left;">
+                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Publisher : {{newsLetter.publisher}}</b></div>
+                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Author : {{newsLetter.author}}</b></div>
+                    </div>
+                 </div>
+            <div style="text-align:left;padding-right:2px;padding-top:3px"><b>{{newsLetter.description}}</b></div>
+         </div>
+    </div>
+    <div style="overflow:auto;text-align:center" ng-if="planetCtrl.planets.length  == 0">
+        {{planetCtrl.ProcessInfo.Message}}
+    </div>
+</div>
