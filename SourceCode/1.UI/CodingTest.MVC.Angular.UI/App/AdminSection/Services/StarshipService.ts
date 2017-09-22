@@ -6,19 +6,34 @@ module AdminSection.Services
         static $inject = ["$http","$q"];
         constructor( private httpService: ng.IHttpService, private qService:ng.IQService) {}
 
-        GetByPage(page: number): ng.IPromise<any> 
+        GetByPage = (page: number): ng.IPromise<any>  =>
         {
             var config = {
                 params: { page: page  },
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type, x-xsrf-token'
+                }
             } as ng.IRequestShortcutConfig;
 
             return this.httpService.get(Common.AppConstants.SWAPIUrl + '/starships/', config );
         }
 
-        GetAll(): ng.IPromise<any> {
+        GetByUrl = (url: string): ng.IPromise<any> => {
+            var self = this;
             var config = {
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type, x-xsrf-token'
+                }
+            } as ng.IRequestShortcutConfig;
+            return self.httpService.get(url, config);
+        }
+
+
+        GetAll = (): ng.IPromise<any> => {
+            var config = {
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type, x-xsrf-token'
+                }
             } as ng.IRequestShortcutConfig;
             return this.httpService.get(Common.AppConstants.SWAPIUrl + '/starships/', config);
         }
@@ -30,5 +45,5 @@ module AdminSection.Services
         }
     }
 
-    App.ModuleInitiator.GetModule("AdminSection").factory("AdminSection.Services.StarshipService", StarshipService.GetInstance );
+    App.ModuleInitiator.GetModule("AdminSection").service("AdminSection.Services.StarshipService", StarshipService );
 } 

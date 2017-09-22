@@ -5,7 +5,6 @@
     var module = App.ModuleInitiator.GetModule( "AdminSection" );
     module.config(AdminSection.AdminSectionRoutes.configureRoutes);
     module.config(($httpProvider: ng.IHttpProvider) => {
-        $httpProvider.defaults.withCredentials = true;
         $httpProvider.interceptors.push(Common.Interceptors.AuthenticationInterceptor.Factory);
     });
 

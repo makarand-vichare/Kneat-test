@@ -2,16 +2,14 @@
 {
     export class IStarshipVM extends Common.ViewModels.IBaseVM
     {
-        Model: string;
-        Manufacturer: string;
-        ShipLength: number;
-        Crew: number;
-        Passengers: number;
-        CargoCapacity: number;
-        Consumables: number;
+        model: string;
+        crew: number;
+        passengers: number;
+        cargo_capacity: number;
+        consumables: string;
         MGLT: number;
-        HyperdriveRating: string;
-        MaxAtmospheringSpeed: string;
-        StarshipClass: string;
+        hyperdrive_rating: string;
+        max_atmosphering_speed: string;
+        starship_class: string;
     }
 }

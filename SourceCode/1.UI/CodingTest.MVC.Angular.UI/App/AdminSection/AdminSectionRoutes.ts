@@ -9,6 +9,13 @@
                     templateUrl: "/App/AdminSection/Views/home.html",
                     controllerAs: "adminHomeCtrl"
                 }
+            )
+                .when("/adminHome",
+                {
+                    controller: "AdminSection.Controllers.AdminHomeController",
+                    templateUrl: "/App/AdminSection/Views/home.html",
+                    controllerAs: "adminHomeCtrl"
+                }
                 )
                 .when("/starships",
                 {

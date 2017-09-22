@@ -32,7 +32,8 @@ namespace CodingChallange.WebApi2.Providers
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
-                { "id", context.UserName }
+                { "id", context.UserName },
+                { "role", (userInfo.Item2) ? "admin": "user" }
             });
 
             var ticket = new AuthenticationTicket(identity, props);
@@ -42,10 +43,10 @@ namespace CodingChallange.WebApi2.Providers
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
-            //foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
-            //{
-            //    context.AdditionalResponseParameters.Add(property.Key, property.Value);
-            //}
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
 
             return Task.FromResult<object>(null);
         }

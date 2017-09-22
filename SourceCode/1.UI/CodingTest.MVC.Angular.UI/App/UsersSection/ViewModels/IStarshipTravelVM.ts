@@ -2,6 +2,6 @@
 {
     export class IStarshipTravelVM extends AdminSection.ViewModels.IStarshipVM
     {
-        ReSupplyCount: number;
+        ReSupplyCount: string;
     }
 }

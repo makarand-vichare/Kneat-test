@@ -4,6 +4,5 @@
     {
         Id: any;
         UserName: string;
-        Email: string;
     }
 }

@@ -130,7 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
-    <Compile Include="Controllers\UserSectionController.cs" />
+    <Compile Include="Controllers\UsersSectionController.cs" />
     <Compile Include="Controllers\HomeSectionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -154,7 +154,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="App\HomeSection\Views\home.html" />
-    <Content Include="App\UsersSection\Views\starship.html" />
+    <Content Include="App\UsersSection\Views\starshipstravel.html" />
     <Content Include="Scripts\angular-cookies.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-local-storage.js" />

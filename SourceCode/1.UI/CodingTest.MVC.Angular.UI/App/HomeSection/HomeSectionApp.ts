@@ -7,7 +7,6 @@
     module.config( HomeSection.HomeSectionRoutes.ConfigureRoutes );
     module.config( ( $httpProvider: ng.IHttpProvider ) =>
     {
-        $httpProvider.defaults.withCredentials = true;
         $httpProvider.interceptors.push( Common.Interceptors.AuthenticationInterceptor.Factory );
     });
 

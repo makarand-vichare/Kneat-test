@@ -1,38 +1,51 @@
-﻿<h2>Available NewsLetters</h2>
-<div ng-init="newsLetterCtrl.Initialize()">
-    <div style="overflow:auto">
-        <input type="text" name="publisher" style="float:left;width:250px" placeholder="NewsLetter Publisher" ng-model="newsLetterCtrl.searchNewsLetterParamVM.Publisher" ng-maxlength="20">
-        <input type="text" name="author" style="float:left;;width:250px" placeholder="NewsLetter Author" ng-model="newsLetterCtrl.searchNewsLetterParamVM.Author" ng-maxlength="20">
-        <input type="button" name="btnSearch" style="float:left;width:120px"  value="Search NewsLetter" ng-click="newsLetterCtrl.GetNewsLetters()">
-        <br/>
-        <div ng-hide="newsLetterCtrl.ProcessInfo.Message == '' || newsLetterCtrl.ProcessInfo.IsSucceed" ng-class="(newsLetterCtrl.ProcessInfo.IsSucceed) ? 'alert alert-success' : 'alert alert-danger'">
-            {{newsLetterCtrl.ProcessInfo.Message}}
-        </div>
-    </div>
-</div>
-<br />
+﻿<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive" ng-init="starshipCtrl.GetStarShips(1)">
+                <table summary="Starship list from swapi.io" class="table table-bordered table-hover">
+                    <caption class="text-center"><h2>Starship List</h2></caption>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Model</th>
+                            <th>Crew</th>
+                            <th>Passengers</th>
+                            <th>Cargo Capacity</th>
+                            <th>Consumables</th>
+                            <th>MGLT</th>
+                            <th>Hyperdrive Rating</th>
+                            <th>Max Atmosphering Speed</th>
+                            <th>Starship Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="starship in starshipCtrl.model.starships">
+                            <td>{{starship.name}}</td>
+                            <td>{{starship.model}}</td>
+                            <td>{{starship.crew}}</td>
+                            <td>{{starship.passengers}}</td>
+                            <td>{{starship.cargo_capacity}}</td>
+                            <td>{{starship.consumables}}</td>
+                            <td>{{starship.MGLT}}</td>
+                            <td>{{starship.hyperdrive_rating}}</td>
+                            <td>{{starship.max_atmosphering_speed}}</td>
+                            <td>{{starship.starship_class}}</td>
 
-<hr />
-<div>
-    <div style="overflow:auto" ng-if="newsLetterCtrl.newsLetterList.length >0">
-        <div style="float:left;overflow:auto;border:solid;border-width:thin;margin:2px;width:98%" ng-repeat="newsLetter in newsLetterCtrl.newsLetterList">
-            <div ng-hide="(!newsLetterCtrl.authenticationVM.IsAuth) || newsLetter.isRequested" style="float:left;text-align:right;width:100%">
-                <div ng-controller="UserNewsLetterModule.Controllers.UserNewsLetterController as userNewsLetterCtrl">
-                    <input type="button" name="btnFindNewsLetter" style="width:150px" value="Subscribe (not tested)" ng-click="userNewsLetterCtrl.UpdateMyNewsLetters(newsLetter.id)"/>
-                </div>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" style="vertical-align:middle">
+                                <button class="btn btn-md btn-default text-left" ng-disabled="!starshipCtrl.model.previous" ng-click="starshipCtrl.GetByUrl(starshipCtrl.model.previous)">Previous</button>
+                                <button class="btn btn-md btn-default pull-right" ng-disabled="!starshipCtrl.model.next" ng-click="starshipCtrl.GetByUrl(starshipCtrl.model.next)">Next</button>
+                            </td>
+                            <td class="text-right">
+                                <button class="btn btn-md btn-info" ng-click="alert('not implemented')">Add New Starship</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-
-            <div style="text-align:center;padding-left:2px;padding-bottom:3px"><b>{{newsLetter.title}}</b></div>
-                <div style="overflow:auto">
-                    <div style="float:left;text-align:left;">
-                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Publisher : {{newsLetter.publisher}}</b></div>
-                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Author : {{newsLetter.author}}</b></div>
-                    </div>
-                 </div>
-            <div style="text-align:left;padding-right:2px;padding-top:3px"><b>{{newsLetter.description}}</b></div>
-         </div>
-    </div>
-    <div style="overflow:auto;text-align:center" ng-if="newsLetterCtrl.newsLetterList.length  == 0">
-        {{newsLetterCtrl.ProcessInfo.Message}}
+        </div>
     </div>
 </div>

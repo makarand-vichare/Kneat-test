@@ -6,16 +6,19 @@ module UsersSection.Services
         static $inject = ["$http","$q"];
         constructor( private httpService: ng.IHttpService, private qService:ng.IQService) {}
 
-        GetShipsSupplyCount(planetDistance: number): ng.IPromise<any> {
+        GetShipsSupplyCount = (planetDistance: number): ng.IPromise<any> => {
+            var self = this;
             var config = {
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type, x-xsrf-token'
+                }
             } as ng.IRequestShortcutConfig;
 
             var defer = this.qService.defer();
             this.httpService.get(Common.AppConstants.SWAPIUrl + '/starships/', config)
                 .then(function (response: any) {
-                    var starships = this.CalculateReSupplyCount(response.data.viewModels, planetDistance);
-                    defer.resolve(starships);
+                    response.data.results = self.CalculateReSupplyCount(response.data.results, planetDistance);
+                    defer.resolve(response);
                 })
                 .catch(function (error: any) {
                     defer.reject(error);
@@ -23,12 +26,49 @@ module UsersSection.Services
             return defer.promise;
         }
 
-        private CalculateReSupplyCount(starShips: Array<UsersSection.ViewModels.IStarshipTravelVM>, planetDistance: number): Array<UsersSection.ViewModels.IStarshipTravelVM>
+        private CalculateReSupplyCount = (starShips: Array<UsersSection.ViewModels.IStarshipTravelVM>, planetDistance: number): Array<UsersSection.ViewModels.IStarshipTravelVM> =>
         {
+            var self = this;
             starShips.forEach((starship) => {
-                starship.ReSupplyCount = planetDistance / starship.MGLT * starship.Consumables;
+
+                var resupplyCount = (planetDistance / Number(starship.MGLT)) / self.GetConsumablesInHour(starship.consumables);
+                // stopsNeeded = hours required to reach the distance divided by food available per hour
+                starship.ReSupplyCount = Math.floor(resupplyCount).toString();
             });
             return starShips;
+        }
+
+        private GetConsumablesInHour = (consumables: string) : number => {
+            var result = 0;
+            var splitArray = consumables.split(' ');
+            switch (splitArray[1]) {
+                case "days":
+                case "day":
+                    {
+                        result = Number(splitArray[0]) * 24;
+                        break;
+                    }
+                case "weeks":
+                case "week":
+                    {
+                        result = Number(splitArray[0]) * 24 * 7;
+                      break;
+                    }
+                case "months":
+                case "month":
+                    {
+                        result = Number(splitArray[0]) * 24 * 30;
+                      break;
+                    }
+                case "years":
+                case "year":
+                    {
+                        result = Number(splitArray[0]) * 24 * 365;
+                       break;
+                    }
+            }
+
+            return result;
         }
 
         static GetInstance = () =>
@@ -38,5 +78,5 @@ module UsersSection.Services
         }
     }
 
-    App.ModuleInitiator.GetModule("UsersSection").factory("UsersSection.Services.StarshipTravelService", StarshipTravelService.GetInstance );
+    App.ModuleInitiator.GetModule("UsersSection").service("UsersSection.Services.StarshipTravelService", StarshipTravelService );
 } 

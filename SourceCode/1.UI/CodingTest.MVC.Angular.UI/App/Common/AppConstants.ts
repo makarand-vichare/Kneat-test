@@ -3,7 +3,7 @@ module Common
 {
     export class AppConstants
     {
-        static get SWAPIUrl(): string { return "http://swapi.co/api" };
+        static get SWAPIUrl(): string { return "https://swapi.co/api" };
         static get AuthAPIUrl(): string { return "http://localhost:8888" };
 
     }

@@ -4,21 +4,29 @@ module UsersSection.Controllers
     export class StarshipTravelController extends Common.Controllers.BaseController
     {
         static $inject = ["$injector", "UsersSection.Services.StarshipTravelService", "AdminSection.Services.PlanetService"];
-        constructor(_injectorService: ng.auto.IInjectorService, private starshipService: UsersSection.Interfaces.IStarshipTravelService, private planetService: AdminSection.Interfaces.IPlanetService )
+        constructor(_injectorService: ng.auto.IInjectorService, private starshipTravelService: UsersSection.Interfaces.IStarshipTravelService, private planetService: AdminSection.Interfaces.IPlanetService )
         {
             super( _injectorService );
         }
 
-        starships: Array<UsersSection.ViewModels.IStarshipTravelVM>;
-        planets: AdminSection.ViewModels.IPlanetVM;
+        starshipModel = {
+            starships: new Array<AdminSection.ViewModels.IStarshipVM>(),
+            next: '',
+            previous: ''
+        };
 
-        GetShipsSupplyCount = (planetDistance: number) => {
+        planetDistance: number = 1000;
+
+
+        GetShipsSupplyCount = () => {
             var self = this;
             self.StartProcess();
 
-            self.starshipService.GetShipsSupplyCount(planetDistance)
+            self.starshipTravelService.GetShipsSupplyCount(self.planetDistance)
                 .then(function (response: any) {
-                    self.starships = response.data.viewModels;
+                    self.starshipModel.starships = response.data.results;
+                    self.starshipModel.next = response.data.next;
+                    self.starshipModel.previous = response.data.previous;
                     self.ProcessInfo.IsSucceed = true;
                     self.ProcessInfo.Message = response.data.message;
                 })
@@ -29,29 +37,6 @@ module UsersSection.Controllers
                     self.ProcessInfo.Loading = false;
                 });
         }
-
-        GetPlanets = (page:number) =>
-        {
-            var self = this;
-            self.StartProcess();
-
-            self.planetService.GetByPage(page)
-                .then( function ( response: any )
-                {
-                    self.planets = response.data.viewModels;
-                    self.ProcessInfo.Message = response.data.message;
-                    self.ProcessInfo.IsSucceed = true;
-                })
-                .catch( function ( response: any )
-                {
-                    self.ProcessInfo.Message = response.data.message;
-                })
-                .finally( function ()
-                {
-                    self.ProcessInfo.Loading = false;
-                });
-        }
-
     }
     App.ModuleInitiator.GetModule("UsersSection").controller("UsersSection.Controllers.StarshipTravelController", StarshipTravelController );
 } 

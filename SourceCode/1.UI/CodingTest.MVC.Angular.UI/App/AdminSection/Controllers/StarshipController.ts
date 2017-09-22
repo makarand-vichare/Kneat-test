@@ -9,7 +9,11 @@ module AdminSection.Controllers
             super( _injectorService );
         }
 
-        starships: Array<AdminSection.ViewModels.IStarshipVM>;
+        model = {
+            starships: new Array<AdminSection.ViewModels.IStarshipVM>(),
+            next: '',
+            previous: ''
+        };
 
         GetStarShips = (page: number) =>
         {
@@ -19,7 +23,10 @@ module AdminSection.Controllers
             self.starshipService.GetByPage(page)
                 .then( function ( response: any )
                 {
-                    self.starships = response.data.viewModels;
+                    self.model.starships = response.data.results;
+                    self.model.next = response.data.next;
+                    self.model.previous = response.data.previous;
+
                     self.ProcessInfo.IsSucceed = true;
                     self.ProcessInfo.Message = response.data.message;
                 })
@@ -29,6 +36,25 @@ module AdminSection.Controllers
                 })
                 .finally( function ()
                 {
+                    self.ProcessInfo.Loading = false;
+                });
+        }
+
+        GetByUrl = (url: string) => {
+            var self = this;
+            self.StartProcess();
+            self.starshipService.GetByUrl(url)
+                .then(function (response: any) {
+                    self.model.starships = response.data.results;
+                    self.model.next = response.data.next;
+                    self.model.previous = response.data.previous;
+                    self.ProcessInfo.IsSucceed = true;
+                    self.ProcessInfo.Message = response.data.message;
+                })
+                .catch(function (response: any) {
+                    self.ProcessInfo.Message = response.data.message;
+                })
+                .finally(function () {
                     self.ProcessInfo.Loading = false;
                 });
         }

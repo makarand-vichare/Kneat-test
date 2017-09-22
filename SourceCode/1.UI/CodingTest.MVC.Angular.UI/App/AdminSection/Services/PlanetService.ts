@@ -8,15 +8,30 @@ module AdminSection.Services
         {
         }
 
-        GetByPage(page: number): ng.IPromise<any> 
+        GetByPage = (page: number): ng.IPromise<any> =>
         {
+            var self = this;
+
             var config = {
                 params: { page: page  },
-                headers: { 'Accept': 'application/json' }
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers':'Content-Type, x-xsrf-token'}
             } as ng.IRequestShortcutConfig;
 
-            return this.httpService.get(Common.AppConstants.SWAPIUrl + '/planets/', config );
+            return self.httpService.get(Common.AppConstants.SWAPIUrl + '/planets/', config );
         }
+
+
+        GetByUrl = (url: string): ng.IPromise<any> => {
+            var self = this;
+            var config = {
+                headers: {
+                    'Accept': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type, x-xsrf-token'
+                }              
+            } as ng.IRequestShortcutConfig;
+            return self.httpService.get(url, config);
+        }
+
         static GetInstance = () =>
         {
             var instance = ($http: ng.IHttpService) => new PlanetService( $http );
@@ -24,5 +39,5 @@ module AdminSection.Services
         }
     }
 
-    App.ModuleInitiator.GetModule("AdminSection").service("AdminSection.Services.PlanetService", PlanetService.GetInstance );
+    App.ModuleInitiator.GetModule("AdminSection").service("AdminSection.Services.PlanetService", PlanetService );
 } 

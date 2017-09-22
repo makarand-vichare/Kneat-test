@@ -9,7 +9,11 @@ module AdminSection.Controllers
             super( _injectorService );
         }
 
-        planets: Array<AdminSection.ViewModels.IPlanetVM>;
+        model = {
+            planets: new Array<AdminSection.ViewModels.IPlanetVM>(),
+            next: '',
+            previous: ''
+        };
 
         GetPlanets = (page: number) =>
         {
@@ -19,7 +23,10 @@ module AdminSection.Controllers
             self.planetService.GetByPage(page)
                 .then( function ( response: any )
                 {
-                    self.planets = response.data.viewModels;
+                    self.model.planets = response.data.results;
+                    self.model.next = response.data.next;
+                    self.model.previous = response.data.previous;
+
                     self.ProcessInfo.IsSucceed = true;
                     self.ProcessInfo.Message = response.data.message;
                 })
@@ -32,6 +39,25 @@ module AdminSection.Controllers
                     self.ProcessInfo.Loading = false;
                 });
         }
+        GetByUrl = (url: string) => {
+            var self = this;
+            self.StartProcess();
+            self.planetService.GetByUrl(url)
+                .then(function (response: any) {
+                    self.model.planets = response.data.results;
+                    self.model.next = response.data.next;
+                    self.model.previous = response.data.previous;
+                    self.ProcessInfo.IsSucceed = true;
+                    self.ProcessInfo.Message = response.data.message;
+                })
+                .catch(function (response: any) {
+                    self.ProcessInfo.Message = response.data.message;
+                })
+                .finally(function () {
+                    self.ProcessInfo.Loading = false;
+                });
+        }
+
     }
     App.ModuleInitiator.GetModule("AdminSection").controller("AdminSection.Controllers.PlanetController", PlanetController );
 } 

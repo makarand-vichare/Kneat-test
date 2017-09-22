@@ -2,7 +2,7 @@
 {
     export class ILoginVM
     {
-        Email: string;
+        UserName: string;
         Password: string;
     }
 }

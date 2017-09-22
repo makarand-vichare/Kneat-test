@@ -14,34 +14,26 @@ var UsersSection;
     (function (Controllers) {
         var StarshipTravelController = (function (_super) {
             __extends(StarshipTravelController, _super);
-            function StarshipTravelController(_injectorService, starshipService, planetService) {
+            function StarshipTravelController(_injectorService, starshipTravelService, planetService) {
                 var _this = _super.call(this, _injectorService) || this;
-                _this.starshipService = starshipService;
+                _this.starshipTravelService = starshipTravelService;
                 _this.planetService = planetService;
-                _this.GetShipsSupplyCount = function (planetDistance) {
-                    var self = _this;
-                    self.StartProcess();
-                    self.starshipService.GetShipsSupplyCount(planetDistance)
-                        .then(function (response) {
-                        self.starships = response.data.viewModels;
-                        self.ProcessInfo.IsSucceed = true;
-                        self.ProcessInfo.Message = response.data.message;
-                    })
-                        .catch(function (response) {
-                        self.ProcessInfo.Message = response.data.message;
-                    })
-                        .finally(function () {
-                        self.ProcessInfo.Loading = false;
-                    });
+                _this.starshipModel = {
+                    starships: new Array(),
+                    next: '',
+                    previous: ''
                 };
-                _this.GetPlanets = function (page) {
+                _this.planetDistance = 1000;
+                _this.GetShipsSupplyCount = function () {
                     var self = _this;
                     self.StartProcess();
-                    self.planetService.GetByPage(page)
+                    self.starshipTravelService.GetShipsSupplyCount(self.planetDistance)
                         .then(function (response) {
-                        self.planets = response.data.viewModels;
-                        self.ProcessInfo.Message = response.data.message;
+                        self.starshipModel.starships = response.data.results;
+                        self.starshipModel.next = response.data.next;
+                        self.starshipModel.previous = response.data.previous;
                         self.ProcessInfo.IsSucceed = true;
+                        self.ProcessInfo.Message = response.data.message;
                     })
                         .catch(function (response) {
                         self.ProcessInfo.Message = response.data.message;

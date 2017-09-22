@@ -17,12 +17,37 @@ var AdminSection;
             function StarshipController(_injectorService, starshipService) {
                 var _this = _super.call(this, _injectorService) || this;
                 _this.starshipService = starshipService;
+                _this.model = {
+                    starships: new Array(),
+                    next: '',
+                    previous: ''
+                };
                 _this.GetStarShips = function (page) {
                     var self = _this;
                     self.StartProcess();
                     self.starshipService.GetByPage(page)
                         .then(function (response) {
-                        self.starships = response.data.viewModels;
+                        self.model.starships = response.data.results;
+                        self.model.next = response.data.next;
+                        self.model.previous = response.data.previous;
+                        self.ProcessInfo.IsSucceed = true;
+                        self.ProcessInfo.Message = response.data.message;
+                    })
+                        .catch(function (response) {
+                        self.ProcessInfo.Message = response.data.message;
+                    })
+                        .finally(function () {
+                        self.ProcessInfo.Loading = false;
+                    });
+                };
+                _this.GetByUrl = function (url) {
+                    var self = _this;
+                    self.StartProcess();
+                    self.starshipService.GetByUrl(url)
+                        .then(function (response) {
+                        self.model.starships = response.data.results;
+                        self.model.next = response.data.next;
+                        self.model.previous = response.data.previous;
                         self.ProcessInfo.IsSucceed = true;
                         self.ProcessInfo.Message = response.data.message;
                     })

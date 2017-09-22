@@ -4,7 +4,7 @@ var Common;
         function AppConstants() {
         }
         Object.defineProperty(AppConstants, "SWAPIUrl", {
-            get: function () { return "http://swapi.co/api"; },
+            get: function () { return "https://swapi.co/api"; },
             enumerable: true,
             configurable: true
         });

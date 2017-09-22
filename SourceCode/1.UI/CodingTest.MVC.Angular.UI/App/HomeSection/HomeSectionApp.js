@@ -3,7 +3,6 @@
     var module = App.ModuleInitiator.GetModule("HomeSection");
     module.config(HomeSection.HomeSectionRoutes.ConfigureRoutes);
     module.config(function ($httpProvider) {
-        $httpProvider.defaults.withCredentials = true;
         $httpProvider.interceptors.push(Common.Interceptors.AuthenticationInterceptor.Factory);
     });
     module.run(['AdminSection.Services.AuthService', function (authService) {

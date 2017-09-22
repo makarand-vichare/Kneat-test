@@ -4,6 +4,7 @@
     {
         Id: any;
         IsAuth: boolean;
-        Email: string;
+        UserName: string;
+        Role: string;
     }
 }

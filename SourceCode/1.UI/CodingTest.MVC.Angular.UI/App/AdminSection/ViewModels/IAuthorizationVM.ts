@@ -4,6 +4,7 @@
     {
         Id: any;
         Token: string;
-        Email: string;
+        UserName: string;
+        Role: string;
     }
 }

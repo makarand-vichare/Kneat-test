@@ -18,7 +18,7 @@ var AdminSection;
                 var _this = _super.call(this, _injectorService) || this;
                 _this.authService = authService;
                 _this.loginVM = {
-                    Email: "",
+                    UserName: "",
                     Password: ""
                 };
                 _this.Initialize();
@@ -28,7 +28,7 @@ var AdminSection;
                 var self = this;
                 self.authService.Login(loginData).then(function (response) {
                     if (response.data != null) {
-                        self.windowService.location.href = '/NewsLetter';
+                        self.windowService.location.href = (response.data.role === 'admin') ? '/AdminSection' : '/UsersSection';
                     }
                 })
                     .catch(function (response) {
@@ -41,7 +41,7 @@ var AdminSection;
             LoginController.prototype.LogOut = function () {
                 var self = this;
                 self.authService.LogOut();
-                self.windowService.location.href = '/Home/#/home';
+                self.windowService.location.href = '/HomeSection/#/home';
             };
             LoginController.prototype.Initialize = function () {
                 var self = this;

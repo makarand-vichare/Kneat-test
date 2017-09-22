@@ -12,7 +12,7 @@ module AdminSection.Controllers
         }
 
         loginVM: AdminSection.ViewModels.ILoginVM = {
-            Email: "",
+            UserName: "",
             Password: ""
         };
 
@@ -25,7 +25,7 @@ module AdminSection.Controllers
             {
                 if ( response.data != null )
                 {
-                    self.windowService.location.href = '/NewsLetter';
+                    self.windowService.location.href = (response.data.role === 'admin') ? '/AdminSection' : '/UsersSection';
                 }
 
             })
@@ -43,7 +43,7 @@ module AdminSection.Controllers
         {
             var self = this;
             self.authService.LogOut();
-            self.windowService.location.href = '/Home/#/home';
+            self.windowService.location.href = '/HomeSection/#/home';
         }
 
         Initialize()

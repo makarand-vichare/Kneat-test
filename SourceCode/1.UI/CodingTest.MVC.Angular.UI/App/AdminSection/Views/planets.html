@@ -1,18 +1,42 @@
-﻿<h2>Planets</h2>
-<div ng-init="planetCtrl.GetPlanets(1)">
-    <div style="overflow:auto" ng-if="planetCtrl.planets.length >0">
-        <div style="float:left;overflow:auto;border:solid;border-width:thin;margin:2px;width:98%" ng-repeat="planet in planetCtrl.planets">
-             <div style="text-align:center;padding-left:2px;padding-bottom:3px"><b>{{newsLetter.title}}</b></div>
-                <div style="overflow:auto">
-                    <div style="float:left;text-align:left;">
-                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Publisher : {{newsLetter.publisher}}</b></div>
-                        <div style="text-align:left;padding-right:2px;padding-top:3px"><b>Author : {{newsLetter.author}}</b></div>
-                    </div>
-                 </div>
-            <div style="text-align:left;padding-right:2px;padding-top:3px"><b>{{newsLetter.description}}</b></div>
-         </div>
-    </div>
-    <div style="overflow:auto;text-align:center" ng-if="planetCtrl.planets.length  == 0">
-        {{planetCtrl.ProcessInfo.Message}}
+﻿<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive" ng-init="planetCtrl.GetPlanets(1)">
+                <table summary="Planet list from swapi.io" class="table table-bordered table-hover">
+                    <caption class="text-center"><h2>Planet List</h2></caption>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Rotation Period</th>
+                            <th>Diameter</th>
+                            <th>Gravity</th>
+                            <th>Population</th>
+                            <th>Climate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="planet in planetCtrl.model.planets">
+                            <td>{{planet.name}}</td>
+                            <td>{{planet.rotation_period}}</td>
+                            <td>{{planet.diameter}}</td>
+                            <td>{{planet.gravity}}</td>
+                            <td>{{planet.population}}</td>
+                            <td>{{planet.climate}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="vertical-align:middle" >
+                                <button class="btn btn-md btn-default text-left" ng-disabled="!planetCtrl.model.previous" ng-click="planetCtrl.GetByUrl(planetCtrl.model.previous)">Previous</button>
+                                <button class="btn btn-md btn-default pull-right" ng-disabled="!planetCtrl.model.next" ng-click="planetCtrl.GetByUrl(planetCtrl.model.next)">Next</button>
+                            </td>
+                            <td  class="text-right">
+                                <button class="btn btn-md btn-info" ng-click="alert('not implemented')">Add New Planet</button> 
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,8 +2,7 @@
 {
     export class IPlanetVM extends Common.ViewModels.IBaseVM
     {
-        Model: string;
-        RotationPeriod: number;
+        Rotation_period: number;
         Diameter: number;
         Gravity: string;
         Population: number;

@@ -17,15 +17,16 @@ module AdminSection.Services
 
         authVM: AdminSection.ViewModels.IAuthenticationVM = {
             IsAuth: this.isAuth,
-            Email: "",
-            Id :0
+            UserName: "",
+            Id: 0,
+            Role :""
         };
 
         Login = (loginData: AdminSection.ViewModels.ILoginVM): ng.IPromise<any> =>
         {
             var self = this;
 
-            var data = "grant_type=password&username=" + loginData.Email + "&password=" + loginData.Password;
+            var data = "grant_type=password&username=" + loginData.UserName + "&password=" + loginData.Password;
 
             return self.httpService.post(Common.AppConstants.AuthAPIUrl + '/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 .then( function( response:any )
@@ -33,13 +34,15 @@ module AdminSection.Services
                         self.localStorageService.set( 'authorizationData',
                             {
                                 Token: response.data.access_token,
-                                Email: loginData.Email,
-                                Id: response.data.id
+                                UserName: loginData.UserName,
+                                Id: response.data.id,
+                                Role: response.data.role
                             } as AdminSection.ViewModels.IAuthorizationVM );
 
                         self.authVM.IsAuth = !self.isAuth;
-                        self.authVM.Email = loginData.Email;
+                        self.authVM.UserName = loginData.UserName;
                         self.authVM.Id = response.data.id;
+                        self.authVM.Role = response.data.role;
 
                     return response;
 
@@ -56,7 +59,8 @@ module AdminSection.Services
             self.localStorageService.remove( 'authorizationData' );
             self.authVM.IsAuth = self.isAuth;
             self.authVM.Id = 0;
-            self.authVM.Email = "";
+            self.authVM.UserName = "";
+            self.authVM.Role = "";
         }
 
         GetAuthData = () =>
@@ -67,8 +71,9 @@ module AdminSection.Services
             if ( authData != null )
             {
                 self.authVM.IsAuth = !self.isAuth;
-                self.authVM.Email = authData.Email;
+                self.authVM.UserName = authData.UserName;
                 self.authVM.Id = authData.Id;
+                self.authVM.Role = authData.Role;
 
             }
         }
